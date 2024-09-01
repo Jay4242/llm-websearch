@@ -1,7 +1,6 @@
 #!/bin/python3
 
 import sys
-# Example: reuse your existing OpenAI setup
 from openai import OpenAI
 
 document_file_path = sys.argv[1]
