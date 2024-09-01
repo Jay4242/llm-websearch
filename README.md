@@ -1,13 +1,15 @@
 # llm-websearch
 My version of an LLM Websearch Agent using a local SearXNG server because SearXNG is great.
 
-It fetches the first page of results from the general SearXNG search.  This can be about 30 results.
+## The Search Process
 
-It then iterates over each page description from SearXNG to decide if it wants to investigate the page.
+1. It fetches the first page of results from the general SearXNG search.  This can be about 30 results.
 
-If it does then it uses cURL to fetch the page and try to make an LLM summary of the information we need.  It simply stores this in a text file.
+2. It then iterates over each page description from SearXNG to decide if it wants to investigate the page.
 
-At the end of the SearXNG results it attempts to examine the text file it has created to make yet another summary of the information.
+3. If it does think the description is interesting then it uses cURL to fetch the page and try to make an LLM summary of the information we need.  It simply stores this in a text file. ( /tmp/llm-websearch.txt )
+
+4. At the end of the SearXNG URL results it attempts to examine the text file it has created to make yet another summary of the information.
 
 The list of sources and the summary can be useful for research.
 
