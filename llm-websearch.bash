@@ -29,7 +29,7 @@ done
 for link in "${links[@]}" ; do
 
    #Save the Link URL
-   lurl=$(echo "${link}" | sed -e 's/.*wrapper" href="//g' -e 's/".*//g')
+   lurl=$(echo "${link}" | sed -e 's/.*url_header" href="//g' -e 's/".*//g')
 
    #Save the Link Description
    ldesc=$(echo "${link}" | sed -e 's/.*class="content">//g' -e 's/<div class="engines".*//g' | htmlq --text | grep -v '^[[:space:]]*$')
