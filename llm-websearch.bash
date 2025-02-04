@@ -40,8 +40,19 @@ for link in "${links[@]}" ; do
    #Test if the bot thought the website would be helpful.
    if [[ "${ans}" == Yes* ]] ; then
 
-      #Save the webpage to a temp file and clean up the HTML tags.
-      curl -s -L -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' "${lurl}" | html2text > /tmp/llm-websearch.txt
+      #Test what filetype the URL is.
+      type=$(curl -s -L -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' -I "${lurl}")
+      
+      #If it's a PDF, use 'pdf2txt' to turn it into regular text.
+      if [[ "${type}" == "[Pp][Dd][Ff]" ]] ; then
+         #Convert the pdf2txt
+         wget -U 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' -c "${lurl}" -O /dev/shm/llm-websearch.pdf
+         pdf2txt /dev/shm/llm-websearch.pdf > /dev/shm/llm-websearch.txt
+      else
+         #Else simply try to download the URL.
+         #Save the webpage to a temp file and clean up the HTML tags.
+         curl -s -L -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' "${lurl}" | html2text > /tmp/llm-websearch.txt
+      fi
 
       #Ask the LLM to check the text for helpful information and summarize it.
       pans=$(llm-python-file.py /tmp/llm-websearch.txt "You are a helpful research assistant." "We are trying to research \`${sterm}\` and we have a webpage with the url \`${lurl}\` that has the following text:" "Summarize the portions of the page that help answer \`${sterm}\`.  Only directly summarize the text to help the research and nothing else." "0.7" | sed -e 's/\\n/ /g' -e "s/*//g" -e 's/\\//g' | tr -d '\n')
