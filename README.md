@@ -27,3 +27,8 @@ I've been using Gemma 2 2B Q8, results may vary with other LLM.
 
 ## Misc
 Otherwise, I just have the three scripts (two python, one bash) in my /usr/local/bin PATH in linux.  I'm specifically in Ubuntu if there are any 'Ubuntuisms'.
+
+
+## Screenshot
+
+![Best Robot Vacuum of 2025 Output](https://github.com/Jay4242/llm-websearch/blob/4391b445eeda4fb3e5aa1244a90dce255f81f679/llm-websearch.png)
